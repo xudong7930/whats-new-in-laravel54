@@ -1,5 +1,6 @@
 <?php
 
+use App\Mail\Welcome;
 use Illuminate\Http\Request;
 
 /*
@@ -38,3 +39,13 @@ Route::name('register')->prefix('welcome')->get('/', function(){
 Route::get('slot', function() {
     return view('home');
 });
+
+
+// markdown email send
+// php artisan vendor:publish --tag="laravel-mail"
+Route::get('mail', function() {
+    $user = App\User::first();
+    Mail::to($user)->send(new Welcome($user));
+    dump('done');
+});
+
