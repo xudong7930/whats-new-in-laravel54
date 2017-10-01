@@ -29,3 +29,12 @@ Route::post('form', function(Request $request) {
 Route::name('register')->prefix('welcome')->get('/', function(){
     return 111;
 });
+
+// more adcance create controller and model
+// php artisan make:controller FlightController -m Flight
+
+
+// blade direction components and slot
+Route::get('slot', function() {
+    return view('home');
+});
