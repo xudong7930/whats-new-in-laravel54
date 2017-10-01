@@ -24,3 +24,8 @@ Route::get('form', function() {
 Route::post('form', function(Request $request) {
     return $request->all();
 });
+
+// more freedom route 
+Route::name('register')->prefix('welcome')->get('/', function(){
+    return 111;
+});
