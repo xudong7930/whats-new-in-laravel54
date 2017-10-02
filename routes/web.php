@@ -1,6 +1,7 @@
 <?php
 
 use App\Mail\Welcome;
+use Facades\App\Services\Twitter;
 use Illuminate\Http\Request;
 
 /*
@@ -49,3 +50,15 @@ Route::get('mail', function() {
     dump('done');
 });
 
+// realtime facades
+Route::get('fool', function() {
+    Twitter::publish('some of my status');
+    dump('done');
+});
+
+
+// browser test
+// terminal: composer require laravel/dusk
+// app.php: Laravel\Dusk\DuskServiceProvider::class
+// terminal: php artisan dusk:install
+// run test: php artisan dusk
