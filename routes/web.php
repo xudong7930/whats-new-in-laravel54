@@ -19,6 +19,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('info', funciton () {
+    return phpinfo();
+});
+
 Route::get('form', function() {
     return view('form');
 });
