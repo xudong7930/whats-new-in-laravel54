@@ -23,6 +23,10 @@ Route::get('info', function () {
     return phpinfo();
 });
 
+Route::get('fool', function () {
+    return 'hi, foolishes';
+});
+
 Route::get('form', function() {
     return view('form');
 });
