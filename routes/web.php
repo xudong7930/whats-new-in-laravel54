@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('info', funciton () {
+Route::get('info', function () {
     return phpinfo();
 });
 
