@@ -27,6 +27,12 @@ Route::get('fool', function () {
     return 'hi, foolishes';
 });
 
+
+Route::get('sbjsw', function () {
+    return 'hi, subjsw';
+});
+
+
 Route::get('form', function() {
     return view('form');
 });

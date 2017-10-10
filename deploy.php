@@ -53,20 +53,20 @@ EOF;
     run($cmd);
 });
 
-
+// 修复laravel权限
 task('fix:permit', function () {
+    run("rm -fr {{release_path}}/bootstrap/cache/*");
     run("chmod 777 -R {{release_path}}/bootstrap/cache");
     run("chmod 777 -R {{release_path}}/../../shared/storage");
+    run("php artisan key:generate; composer dumpautoload;php artisan view:clear;php artisan route:clear; php artisan cache:clear;php artisan clear-compiled;");
+    writeln('fix permit done.');
 });
 
-task('after:build', [
-    'fix:env'
-]);
+task('after:failed', function () {
+    run('deployer rollback'); 
+    run('deployer deploy:unlock');
+});
 
-task('after:failed', [
-    'dep rollback',
-    'dep deploy:unlock'
-]);
 
 task('after:success', [
     'fix:permit'
@@ -100,5 +100,5 @@ before('deploy:vendors', 'fix:env'); // 安装composer 依赖项
 // after('deploy:symlink', 'test');
 // after('deploy:unlock', 'test');
 // after('cleanup', 'test');
-// after('success', 'test');
+after('success', 'after:success');
 after('deploy:failed', 'after:failed');
