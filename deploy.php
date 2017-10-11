@@ -48,6 +48,7 @@ host('45.32.77.118')
     ->identityFile('~/Public/ssh2/id_rsa')
     ->addSshOption('UserKnownHostsFile', '/dev/null')
     ->addSshOption('StrictHostKeyChecking', 'no')
+    ->become('www-data')
     ->set('deploy_path', '/usr/local/www/{{application}}');    
 
 localhost()
@@ -83,8 +84,8 @@ task('fix:permit', function () {
     });
     
     run("rm -fr {{release_path}}/bootstrap/cache/*");
-    run("chmod 777 {{release_path}}/bootstrap/cache");
-    run("chmod 777 {{release_path}}/../../shared/storage");
+    run("chmod -R 777 {{release_path}}/bootstrap/cache");
+    run("chmod -R 777 {{release_path}}/../../shared/storage");
 
     writeln('fix permit done');
 });

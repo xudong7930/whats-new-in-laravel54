@@ -27,6 +27,9 @@ Route::get('fool', function () {
     return 'hi, foolishes';
 });
 
+Route::get('who', function() {
+    echo exec('whoami');
+});
 
 Route::get('sbjsw', function () {
     return 'hi, subjsw';
