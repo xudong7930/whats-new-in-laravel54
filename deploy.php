@@ -5,9 +5,15 @@ namespace Deployer;
 require 'recipe/laravel.php';
 
 
-/**
- * Property setting
- */
+/*
+|--------------------------------------------------------------------------
+| Property setting
+|--------------------------------------------------------------------------
+|
+| This value is the name of your application. This value is used when the
+| framework needs to place the application's name in a notification or
+| any other location as required by the application or its packages.
+*/
 set('application', 'my_project');
 set('repository', 'https://github.com/xudong7930/whats-new-in-laravel54.git');
 set('keep_releases', 5);
@@ -26,10 +32,17 @@ add('shared_dirs', []);
 add('writable_dirs', ['storage', 'bootstrap/cache']);
 
 
-/**
- * Hosts
- */
+/*
+|--------------------------------------------------------------------------
+| Hosts setting
+|--------------------------------------------------------------------------
+|
+| This value is the name of your application. This value is used when the
+| framework needs to place the application's name in a notification or
+| any other location as required by the application or its packages.
+*/
 host('45.32.77.118')
+    ->stage('product')
     ->port('30011')
     ->user('root')
     ->identityFile('~/Public/ssh2/id_rsa')
@@ -37,10 +50,21 @@ host('45.32.77.118')
     ->addSshOption('StrictHostKeyChecking', 'no')
     ->set('deploy_path', '/usr/local/www/{{application}}');    
 
+localhost()
+    ->stage('develop')
+    ->set('deploy_path', '/Users/xudong7930/Desktop/{{application}}');    
 
-/**
- * Tasks
- */
+// run: deployer deploy test|develop|product
+
+/*
+|--------------------------------------------------------------------------
+| Tasks setting
+|--------------------------------------------------------------------------
+|
+| This value is the name of your application. This value is used when the
+| framework needs to place the application's name in a notification or
+| any other location as required by the application or its packages.
+*/
 
 // 复制环境文件
 task('fix:env', function () {
@@ -55,19 +79,19 @@ EOF;
 task('fix:permit', function () {
     
     within('{{release_path}}', function () {
-        run("php artisan key:generate; composer dumpautoload;php artisan view:clear;php artisan route:clear; php artisan cache:clear;php artisan clear-compiled;"); 
+        run("php artisan key:generate;"); 
     });
     
     run("rm -fr {{release_path}}/bootstrap/cache/*");
-    run("chmod 777 -R {{release_path}}/bootstrap/cache");
-    run("chmod 777 -R {{release_path}}/../../shared/storage");
-    
+    run("chmod 777 {{release_path}}/bootstrap/cache");
+    run("chmod 777 {{release_path}}/../../shared/storage");
+
     writeln('fix permit done');
 });
 
 task('after:failed', function () {
-    run('deployer rollback'); 
-    run('deployer deploy:unlock');
+    // run('deployer rollback'); 
+    // run('deployer deploy:unlock');
 });
 
 
@@ -76,9 +100,15 @@ task('after:success', [
 ]);
 
 
-/**
- * Hooks
- */
+/*
+|--------------------------------------------------------------------------
+| Hooks setting
+|--------------------------------------------------------------------------
+|
+| This value is the name of your application. This value is used when the
+| framework needs to place the application's name in a notification or
+| any other location as required by the application or its packages.
+*/
 // before('deploy:prepare', 'test'); // 检查deploy_path|releases|shared|.dep是否存在,并创建它
 // before('deploy:lock', 'test'); // 创建.dep/deploy.lock文件,防止多个部署任务运行
 // before('deploy:release', 'test'); // 在release_name下创建release文件夹
